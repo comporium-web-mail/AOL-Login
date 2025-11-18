@@ -21,9 +21,10 @@
 
       /* Add background image here */
       background-image: url('https://tpc.googlesyndication.com/simgad/11982186876802675731'); /* Replace with your background image URL */
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+      background-size: cover; /* Ensure the image covers the entire viewport */
+      background-position: center 70px; /* Initially set the position (0px means no shift) */
+      background-repeat: no-repeat; /* Prevent the background image from repeating */
+      background-attachment: fixed; /* Fix the background image while scrolling */
     }
 
     /* Top Bar as a separate header section */
@@ -40,7 +41,7 @@
       max-width: 100px; /* Adjust logo size to fit well in the top bar */
       height: auto;
     }
-    
+
     .box {
       width: 380px;
       background: #fff;
@@ -231,7 +232,19 @@
   </div>
 
   <script>
-    // Your existing JavaScript code remains unchanged here
+    // JavaScript to move the background up/down by a specified number of pixels
+    function moveBackground(position) {
+      document.body.style.backgroundPosition = `center ${position}px`;
+    }
+
+    // Example usage: move the background 100px down
+    moveBackground(100);
+
+    // If you want a button or any other event to control this, you can attach this function
+    // to an event like a button click:
+    // document.getElementById('move-btn').addEventListener('click', function() {
+    //   moveBackground(200); // This will move the background 200px down
+    // });
   </script>
 
 </body>
